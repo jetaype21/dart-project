@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_final/pages/cart_shop_page.dart';
 
-AppBar MyAppBar() {
+AppBar MyAppBar(context) {
   return AppBar(
     backgroundColor: const Color.fromARGB(255, 1, 12, 37),
     leading: Builder(builder: (BuildContext context) {
@@ -18,9 +19,13 @@ AppBar MyAppBar() {
     title: const Text(''),
     actions: [
       IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push((context),
+                MaterialPageRoute(builder: (context) => const CartShopPage()));
+            // Navigator.push(context, MaterialPageRoute(builder: builder))
+          },
           icon: const Icon(
-            Icons.search,
+            Icons.shopping_cart,
             color: Colors.white,
             size: 36,
           ))

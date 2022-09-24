@@ -1,8 +1,8 @@
-# project_final
+# project_final (DART / FLUTTER)
 
-A new Flutter project.
+it is my project for university
 
-## Getting Started
+## Getting Started - clone my code
 
 This project is a starting point for a Flutter application.
 
