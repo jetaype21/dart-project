@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_final/components/drawe.dart';
+import 'package:eva2_flutter/components/drawe.dart';
 
 class SidebarMenu extends StatefulWidget {
   const SidebarMenu({super.key});
@@ -12,30 +12,31 @@ class SidebarMenu extends StatefulWidget {
 class _SidebarMenuState extends State<SidebarMenu> {
   @override
   Widget build(BuildContext context) {
+
     List<_ListTileWidget> ListMenu = [
-      const _ListTileWidget(
-        icon: Icons.snowshoeing_sharp,
-        text: 'for sports',
-        route: '/sports',
-      ),
-      const _ListTileWidget(
-        icon: Icons.switch_access_shortcut_add_outlined,
-        text: 'for street',
-        route: '/street',
-      ),
-      const _ListTileWidget(
-        icon: Icons.collections,
-        text: 'Collection',
-        route: '/collection',
-      ),
+      // const _ListTileWidget(
+      //   icon: Icons.snowshoeing_sharp,
+      //   text: 'for sports',
+      //   route: '/sports',
+      // ),
+      // const _ListTileWidget(
+      //   icon: Icons.switch_access_shortcut_add_outlined,
+      //   text: 'for street',
+      //   route: '/street',
+      // ),
+      // const _ListTileWidget(
+      //   icon: Icons.collections,
+      //   text: 'Collection',
+      //   route: '/collection',
+      // ),
       const _ListTileWidget(
         icon: Icons.people_outline,
-        text: 'About me',
-        route: '/about',
+        text: 'Clientes',
+        route: '/clientes',
       ),
       const _ListTileWidget(
         icon: Icons.mail_outline,
-        text: 'suggestions',
+        text: 'Proveedores',
         route: '/suggestions',
       ),
     ];
@@ -47,6 +48,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
           Color.fromARGB(255, 2, 19, 30),
           Color.fromARGB(255, 1, 12, 37)
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

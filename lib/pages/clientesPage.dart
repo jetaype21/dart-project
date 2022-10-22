@@ -1,32 +1,29 @@
-import 'package:eva2_flutter/models/card_proveedor.dart';
-import 'package:eva2_flutter/providers/productos_provider.dart';
-import 'package:eva2_flutter/providers/proveedores_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:eva2_flutter/models/card_client.dart';
+import 'package:eva2_flutter/providers/client_provider.dart';
 import 'package:provider/provider.dart';
 
-class SuggestionPage extends StatefulWidget {
-  const SuggestionPage({super.key});
+class ClientesPage extends StatefulWidget {
+  const ClientesPage({super.key});
 
   @override
-  State<SuggestionPage> createState() => _SuggestionPageState();
+  State<ClientesPage> createState() => _ClientesPageState();
 }
 
-class _SuggestionPageState extends State<SuggestionPage> {
-  // List<CardProvedor> listProvedor = DataProovedor.listProvedor;
-
+class _ClientesPageState extends State<ClientesPage> {
   @override
   Widget build(BuildContext context) {
     
-    final clientProvider = Provider.of<ProveedoresProvider>(context);
-    final List<CardProveedor> listDataProveedores = clientProvider.proveedores;
+    final clientesProvider = Provider.of<ClientesProvider>(context);
+    final List<CardCliente> listDataClientes = clientesProvider.clientes;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nuestros ultimos Proveedores'),
+        title: Text('Nuestros ultimos clientes'),
       ),
       body: ListView(
         children: [
-          for (final item in listDataProveedores)
+          for (final item in listDataClientes)
             // SizedBox(height: 20,),
             Container(
               margin: EdgeInsets.all(5),
@@ -64,20 +61,20 @@ class _SuggestionPageState extends State<SuggestionPage> {
               ]),
             )
         ],
-      ),
+      )
+      ,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          agregarProveedor();
+          agregarCliente();
         },
         backgroundColor: Colors.red[400],
       ),
     );
   }
 
-
-  void agregarProveedor() {
-    Navigator.pushNamed(context, '/proveedor_form');
+  void agregarCliente() {
+    Navigator.pushNamed(context, '/cliente_form');
     /*
     return setState(() {
             listaPedidos.insert(0,

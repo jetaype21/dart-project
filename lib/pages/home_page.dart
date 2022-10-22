@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project_final/components/app_bar.dart';
-import 'package:project_final/components/background_container.dart';
-import 'package:project_final/data/data_home_local.dart';
-import 'package:project_final/models/card_item.dart';
-import 'package:project_final/models/card_shopItem.dart';
-import 'package:project_final/views/sidebar_menu.dart';
+import 'package:eva2_flutter/components/app_bar.dart';
+import 'package:eva2_flutter/components/background_container.dart';
+import 'package:eva2_flutter/data/data_home_local.dart';
+import 'package:eva2_flutter/models/card_product.dart';
+import 'package:eva2_flutter/providers/productos_provider.dart';
+import 'package:eva2_flutter/views/sidebar_menu.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,12 +15,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<CardItem> listItemsSneakers = DataHomeLocal.listItemsSneakers;
+  // final List<CardItem> listItemsSneakers = DataHomeLocal.listItemsSneakers;
+
   double width = 0.0;
   DataHomeLocal dataHomeLocal = DataHomeLocal();
 
   @override
   Widget build(BuildContext context) {
+    final clientProvider = Provider.of<ProductosProvider>(context);
+    final List<CardProduct> listDataProductos = clientProvider.listProductos;
+
     double widthPage = MediaQuery.of(context).size.width;
     width = widthPage;
     const textStyle = TextStyle(
@@ -70,16 +75,27 @@ class _HomePageState extends State<HomePage> {
                     height: 250,
                     child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemCount: listItemsSneakers.length,
+                        itemCount: listDataProductos.length,
                         itemBuilder: ((context, index) =>
-                            CardItemWidget(listItemsSneakers[index])),
+                            CardItemWidget(listDataProductos[index])),
                         separatorBuilder: (BuildContext context, int index) =>
                             SizedBox(width: 10)))
               ],
-            )));
+            )
+            ,
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, '/producto_form');
+            },
+            backgroundColor: Colors.red[400],
+          ),
+
+            ));
+            
   }
 
-  Container CardItemWidget(CardItem item) => Container(
+  Container CardItemWidget(CardProduct item) => Container(
         width: width * 0.9,
         height: 250,
         color: Colors.transparent,
@@ -111,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                       onPressed: () {
                         setState(() {
-                          dataHomeLocal.addItemShop(item);
+                          // dataHomeLocal.addItemShop(item);
                           dataHomeLocal = DataHomeLocal();
                         });
                       },
@@ -119,12 +135,13 @@ class _HomePageState extends State<HomePage> {
                       icon: Icon(
                         Icons.add,
                         color: Colors.white,
-                        
-                      ))
+                      )
+                      )
                 ],
               ),
             ),
           ],
         ),
       );
+
 }
