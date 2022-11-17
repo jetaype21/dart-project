@@ -7,6 +7,8 @@ class CardCliente {
     required this.fecha,
     required this.product,
     required this.total,
+    required this.categoria,
+    required this.estado,
   });
 
   String id;
@@ -14,6 +16,8 @@ class CardCliente {
   String fecha;
   String product;
   String total;
+  String categoria;
+  String estado;
 
   factory CardCliente.fromJson(String str) => CardCliente.fromMap(json.decode(str));
 
@@ -25,6 +29,8 @@ class CardCliente {
         fecha: json["fecha"],
         product: json["product"],
         total: json["total"],
+        categoria: json["categoria"],
+        estado: json["estado"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -33,5 +39,7 @@ class CardCliente {
         "fecha": fecha,
         "product": product,
         "total": total,
+        "categoria": categoria,
+        "estado": estado,
       };
 }

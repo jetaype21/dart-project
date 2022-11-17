@@ -16,7 +16,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     final clientProvider = Provider.of<ProveedoresProvider>(context);
     final List<CardProveedor> listDataProveedores = clientProvider.proveedores;
 
@@ -56,6 +55,11 @@ class _SuggestionPageState extends State<SuggestionPage> {
                           Text('Total: ${item.total}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 26)),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/proveedor_form', arguments: item);
+                              },
+                              icon: Icon(Icons.arrow_right))
                         ],
                       ),
                     ],
@@ -74,7 +78,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
       ),
     );
   }
-
 
   void agregarProveedor() {
     Navigator.pushNamed(context, '/proveedor_form');

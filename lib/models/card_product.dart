@@ -8,6 +8,8 @@ class CardProduct {
     required this.precioInitial,
     required this.name,
     required this.img,
+    required this.categoria,
+    required this.estado,
   });
 
   String id;
@@ -16,8 +18,11 @@ class CardProduct {
   String precioInitial;
   String name;
   String img;
+  String categoria;
+  String estado;
 
-  factory CardProduct.fromJson(String str) => CardProduct.fromMap(json.decode(str));
+  factory CardProduct.fromJson(String str) =>
+      CardProduct.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
@@ -28,6 +33,8 @@ class CardProduct {
         precioInitial: json["precioInitial"],
         name: json["name"],
         img: json["img"],
+        categoria: json["categoria"],
+        estado: json["estado"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -37,5 +44,7 @@ class CardProduct {
         "precioInitial": precioInitial,
         "name": name,
         "img": img,
+        "categoria": categoria,
+        "estado": estado,
       };
 }

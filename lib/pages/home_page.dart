@@ -35,54 +35,53 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(10),
         decoration: BackgroundInContainer(),
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.transparent,
-            appBar: MyAppBar(context),
-            drawer: const SidebarMenu(),
-            body: ListView(
-              children: [
-                SizedBox(
-                  height: 10,
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.transparent,
+          appBar: MyAppBar(context),
+          drawer: const SidebarMenu(),
+          body: ListView(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'BUY IN',
+                              style: textStyle,
+                            ),
+                            Text(
+                              'PERUVIAN',
+                              style: textStyle,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                'BUY IN',
-                                style: textStyle,
-                              ),
-                              Text(
-                                'PERUVIAN',
-                                style: textStyle,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                    padding: EdgeInsets.only(left: 10),
-                    height: 250,
-                    child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: listDataProductos.length,
-                        itemBuilder: ((context, index) =>
-                            CardItemWidget(listDataProductos[index])),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            SizedBox(width: 10)))
-              ],
-            )
-            ,
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                  padding: EdgeInsets.only(left: 10),
+                  height: 250,
+                  child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: listDataProductos.length,
+                      itemBuilder: ((context, index) =>
+                          CardItemWidget(listDataProductos[index])),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(width: 10)))
+            ],
+          ),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
@@ -90,9 +89,7 @@ class _HomePageState extends State<HomePage> {
             },
             backgroundColor: Colors.red[400],
           ),
-
-            ));
-            
+        ));
   }
 
   Container CardItemWidget(CardProduct item) => Container(
@@ -126,22 +123,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                   IconButton(
                       onPressed: () {
-                        setState(() {
-                          // dataHomeLocal.addItemShop(item);
-                          dataHomeLocal = DataHomeLocal();
-                        });
+                        Navigator.pushNamed(context, '/producto_form',
+                            arguments: item);
                       },
                       color: Colors.white,
                       icon: Icon(
-                        Icons.add,
+                        Icons.arrow_right,
                         color: Colors.white,
-                      )
-                      )
+                      ))
                 ],
               ),
             ),
           ],
         ),
       );
-
 }

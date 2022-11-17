@@ -10,15 +10,20 @@ class ClienteForm extends StatefulWidget {
   State<ClienteForm> createState() => _ClienteFormState();
 }
 
-class _ClienteFormState extends State<ClienteForm> {
-  @override
-  
-  Widget build(BuildContext context) {
-    final txtclienteId = TextEditingController();
-    final txtproduct = TextEditingController();
-    final txtfecha = TextEditingController();
-    final txttotal = TextEditingController();
+enum Categorias { nike, jordan, adidas }
 
+class _ClienteFormState extends State<ClienteForm> {
+  final _formKeyC = GlobalKey<FormState>();
+  final txtclienteId = TextEditingController();
+  final txtproduct = TextEditingController();
+  final txtfecha = TextEditingController();
+  final txttotal = TextEditingController();
+  Categorias? _catSeleccion = Categorias.adidas;
+  bool? _estadoActivado = false;
+  bool formModificado = false;
+
+  @override
+  Widget build(BuildContext context) {
     @override
     void dispose() {
       // Limpia el controlador cuando el widget se elimine del árbol de widgets
@@ -29,16 +34,30 @@ class _ClienteFormState extends State<ClienteForm> {
     // OBTENIENDO EL PEDIDO COMO ARGUMENTO DE PEDIDO_SCREEN
     final CardCliente? cardCliente =
         ModalRoute.of(context)!.settings.arguments as CardCliente?;
+    if (!formModificado) {
+      if (cardCliente != null) {
+        txtclienteId.text = cardCliente.clienteId.toString();
+        txtproduct.text = cardCliente.product;
+        txtfecha.text = cardCliente.fecha;
+        txttotal.text = cardCliente.total;
 
-    if (cardCliente != null) {
-      txtclienteId.text = cardCliente.clienteId.toString();
-      txtproduct.text = cardCliente.product;
-      txtfecha.text = cardCliente.fecha;
-      txttotal.text = cardCliente.total;
-    } else {
-      txtclienteId.text = '0';
+        if (cardCliente.categoria == 'Categorias.adidas') {
+          _catSeleccion = Categorias.adidas;
+        }
+
+        if (cardCliente.categoria == 'Categorias.jordan') {
+          _catSeleccion = Categorias.jordan;
+        }
+
+        if (cardCliente.categoria == 'Categorias.nike') {
+          _catSeleccion = Categorias.nike;
+        }
+
+        _estadoActivado = cardCliente.estado == "true" ? true : false;
+      } else {
+        txtclienteId.text = '0';
+      }
     }
-
     // PedidoLocal pedidoLocal = PedidoLocal();
     final clientProvider = Provider.of<ClientesProvider>(context);
 
@@ -49,7 +68,7 @@ class _ClienteFormState extends State<ClienteForm> {
       body: Container(
         padding: const EdgeInsets.all(20.0),
         child: Form(
-          // key: ,
+          key: _formKeyC,
           child: Column(
             children: <Widget>[
               TextFormField(
@@ -66,7 +85,12 @@ class _ClienteFormState extends State<ClienteForm> {
                       labelText: 'Producto',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0))),
-                  controller: txtproduct),
+                  controller: txtproduct,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Por favor ingrese un producto";
+                    }
+                  }),
               const SizedBox(
                 height: 20,
               ),
@@ -75,16 +99,92 @@ class _ClienteFormState extends State<ClienteForm> {
                       labelText: 'FECHA',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0))),
-                  controller: txtfecha),
+                  controller: txtfecha,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Por favor ingrese una Fecha";
+                    }
+                  }),
               const SizedBox(
                 height: 20,
               ),
               TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Total',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-                controller: txttotal,
+                  decoration: InputDecoration(
+                      labelText: 'Total',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0))),
+                  controller: txttotal,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Por favor ingrese una cantidad";
+                    }
+                  }),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: <Widget>[
+                  const Text("CATEGORIA:"),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Radio(
+                      value: Categorias.adidas,
+                      groupValue: _catSeleccion,
+                      onChanged: (value) {
+                        setState(() {
+                          _catSeleccion = value as Categorias?;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Adidas"),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Radio(
+                      value: Categorias.jordan,
+                      groupValue: _catSeleccion,
+                      onChanged: (value) {
+                        setState(() {
+                          _catSeleccion = value as Categorias?;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Jordan"),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Radio(
+                      value: Categorias.nike,
+                      groupValue: _catSeleccion,
+                      onChanged: (value) {
+                        setState(() {
+                          _catSeleccion = value as Categorias?;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Nike")
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: <Widget>[
+                  Text("ESTADO:"),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Checkbox(
+                      value: _estadoActivado,
+                      onChanged: (value) {
+                        setState(() {
+                          _estadoActivado = value;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Activado")
+                ],
               ),
               const SizedBox(
                 height: 20,
@@ -96,32 +196,18 @@ class _ClienteFormState extends State<ClienteForm> {
                       .showSnackBar(const SnackBar(content: Text('Guardando')));
                   // CUANDO ES NUEVO
                   var cardClient = CardCliente(
-                      id: '',
-                      clienteId: 0,
-                      product: txtproduct.text,
-                      fecha: txtfecha.text,
-                      total: txttotal.text);
+                    id: '',
+                    clienteId: int.parse(txtclienteId.text),
+                    product: txtproduct.text,
+                    fecha: txtfecha.text,
+                    total: txttotal.text,
+                    categoria: _catSeleccion.toString(),
+                    estado: _estadoActivado.toString(),
+                  );
 
                   clientProvider.postSaveClient(cardClient);
 
-                  // AGREGANDO PEDIDO A LA LISTA
-                  /*  if (int.parse(txtId.text) == 0) {
-                    // OSEA NUEVO
-                   pedidoLocal.agregarPedidoItem(Pedido(
-                        id: pedidoLocal.obtenerCantidadPedidos() + 1,
-                        descripcion: txtDescripcion.text,
-                        fecha: txtFecha.text,
-                        imagen: txtImagen.text));
-                  } else {
-                    // OSEA EDITAR
-                    pedidoLocal.editarPedidoItem(Pedido(
-                        id: int.parse(txtId.text),
-                        descripcion: txtDescripcion.text,
-                        fecha: txtFecha.text,
-                        imagen: txtImagen.text));
-                  } */
-
-                  Navigator.pushReplacementNamed(context, '/about');
+                  Navigator.pushReplacementNamed(context, '/clientes');
                 },
               ),
             ],

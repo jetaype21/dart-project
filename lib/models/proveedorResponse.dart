@@ -18,7 +18,8 @@ class ProveedorResponse {
 
   String toJson() => json.encode(toMap());
 
-  factory ProveedorResponse.fromMap(Map<String, dynamic> json) => ProveedorResponse(
+  factory ProveedorResponse.fromMap(Map<String, dynamic> json) =>
+      ProveedorResponse(
         proveedores: List<CardProveedor>.from(
             json["proveedores"].map((x) => CardProveedor.fromMap(x))),
       );

@@ -96,12 +96,12 @@ class _PedidoFormScreenState extends State<PedidoFormScreen> {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(const SnackBar(content: Text('Guardando')));
                   // CUANDO ES NUEVO
-                  var cardClient = CardCliente(
-                      id: '',
-                      clienteId: 0,
-                      product: txtproduct.text,
-                      fecha: txtfecha.text,
-                      total: txttotal.text);
+                  // var cardClient = CardCliente(
+                  //     id: '',
+                  //     clienteId: 0,
+                  //     product: txtproduct.text,
+                  //     fecha: txtfecha.text,
+                  //     total: txttotal.text);
 
                   // clientProvider.postSavePedido(cardClient);
 

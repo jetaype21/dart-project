@@ -13,7 +13,6 @@ class ClientesPage extends StatefulWidget {
 class _ClientesPageState extends State<ClientesPage> {
   @override
   Widget build(BuildContext context) {
-    
     final clientesProvider = Provider.of<ClientesProvider>(context);
     final List<CardCliente> listDataClientes = clientesProvider.clientes;
 
@@ -53,6 +52,12 @@ class _ClientesPageState extends State<ClientesPage> {
                           Text('Total: ${item.total}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 26)),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/cliente_form',
+                                    arguments: item);
+                              },
+                              icon: Icon(Icons.arrow_right))
                         ],
                       ),
                     ],
@@ -61,8 +66,7 @@ class _ClientesPageState extends State<ClientesPage> {
               ]),
             )
         ],
-      )
-      ,
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {

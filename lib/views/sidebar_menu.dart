@@ -14,21 +14,6 @@ class _SidebarMenuState extends State<SidebarMenu> {
   Widget build(BuildContext context) {
 
     List<_ListTileWidget> ListMenu = [
-      // const _ListTileWidget(
-      //   icon: Icons.snowshoeing_sharp,
-      //   text: 'for sports',
-      //   route: '/sports',
-      // ),
-      // const _ListTileWidget(
-      //   icon: Icons.switch_access_shortcut_add_outlined,
-      //   text: 'for street',
-      //   route: '/street',
-      // ),
-      // const _ListTileWidget(
-      //   icon: Icons.collections,
-      //   text: 'Collection',
-      //   route: '/collection',
-      // ),
       const _ListTileWidget(
         icon: Icons.people_outline,
         text: 'Clientes',
@@ -38,6 +23,21 @@ class _SidebarMenuState extends State<SidebarMenu> {
         icon: Icons.mail_outline,
         text: 'Proveedores',
         route: '/suggestions',
+      ),
+      const _ListTileWidget(
+        icon: Icons.mail_outline,
+        text: 'Reportes Proveedor',
+        route: '/resportesproveedor',
+      ),
+      const _ListTileWidget(
+        icon: Icons.mail_outline,
+        text: 'Reportes Clientes',
+        route: '/resportesclientes',
+      ),
+      const _ListTileWidget(
+        icon: Icons.mail_outline,
+        text: 'Reportes productos',
+        route: '/resportesproductos',
       ),
     ];
 

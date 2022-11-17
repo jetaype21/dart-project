@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:eva2_flutter/models/card_client.dart';
 import 'package:eva2_flutter/models/clientResponse.dart';
+import 'package:eva2_flutter/models/cliente_reporte_response.dart';
+import 'package:eva2_flutter/models/clientesReport.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:eva2_flutter/models/card_product.dart';
@@ -13,10 +15,12 @@ class ClientesProvider extends ChangeNotifier {
   String _baseUrl = '192.168.43.25:8000';
 
   List<CardCliente> clientes = [];
+  List<ClientesReport> listaClientesReport = [];
 
   ClientesProvider() {
     print('Ingresando a clientes provider');
     this.getListClientes();
+    this.reporteClientes();
   }
 
   getListClientes() async {
@@ -38,6 +42,17 @@ class ClientesProvider extends ChangeNotifier {
 
     print(response);
     getListClientes();
+    notifyListeners();
+  }
+
+   reporteClientes() async {
+    var url = Uri.http(_baseUrl, '/api/reportes/clientesreport');
+    final response = await http.get(url);
+
+    print(response.body);
+    final clientesReportResponse =
+        ClientessReportResponse.fromJson(response.body);
+    listaClientesReport = clientesReportResponse.clientesReport;
     notifyListeners();
   }
 }

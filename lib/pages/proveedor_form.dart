@@ -12,14 +12,20 @@ class ProveedorForm extends StatefulWidget {
   State<ProveedorForm> createState() => _ProveedorFormState();
 }
 
+enum Categorias { nike, jordan, adidas }
+
 class _ProveedorFormState extends State<ProveedorForm> {
+  final _formKey = GlobalKey<FormState>();
+  final txtproveedorId = TextEditingController();
+  final txtproduct = TextEditingController();
+  final txtfecha = TextEditingController();
+  final txttotal = TextEditingController();
+  Categorias? _catSeleccion = Categorias.adidas;
+  bool? _estadoActivado = false;
+  bool formModificado = false;
+
   @override
   Widget build(BuildContext context) {
-    final txtproveedorId = TextEditingController();
-    final txtproduct = TextEditingController();
-    final txtfecha = TextEditingController();
-    final txttotal = TextEditingController();
-
     @override
     void dispose() {
       // Limpia el controlador cuando el widget se elimine del árbol de widgets
@@ -31,13 +37,29 @@ class _ProveedorFormState extends State<ProveedorForm> {
     final CardProveedor? cardProveedor =
         ModalRoute.of(context)!.settings.arguments as CardProveedor?;
 
-    if (cardProveedor!= null) {
-      txtproveedorId.text = cardProveedor.proveedorId.toString();
-      txtproduct.text = cardProveedor.product;
-      txtfecha.text = cardProveedor.fecha;
-      txttotal.text = cardProveedor.total;
-    } else {
-      txtproveedorId.text = '0';
+    if (!formModificado) {
+      if (cardProveedor != null) {
+        txtproveedorId.text = cardProveedor.proveedorId.toString();
+        txtproduct.text = cardProveedor.product;
+        txtfecha.text = cardProveedor.fecha;
+        txttotal.text = cardProveedor.total;
+
+        if (cardProveedor.categoria == 'Categorias.adidas') {
+          _catSeleccion = Categorias.adidas;
+        }
+
+        if (cardProveedor.categoria == 'Categorias.jordan') {
+          _catSeleccion = Categorias.jordan;
+        }
+
+        if (cardProveedor.categoria == 'Categorias.nike') {
+          _catSeleccion = Categorias.nike;
+        }
+
+        _estadoActivado = cardProveedor.estado == "true" ? true : false;
+      } else {
+        txtproveedorId.text = '0';
+      }
     }
 
     // PedidoLocal pedidoLocal = PedidoLocal();
@@ -50,7 +72,7 @@ class _ProveedorFormState extends State<ProveedorForm> {
       body: Container(
         padding: const EdgeInsets.all(20.0),
         child: Form(
-          // key: ,
+          key: _formKey,
           child: Column(
             children: <Widget>[
               TextFormField(
@@ -63,20 +85,32 @@ class _ProveedorFormState extends State<ProveedorForm> {
                 height: 20,
               ),
               TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Producto',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0))),
-                  controller: txtproduct),
+                decoration: InputDecoration(
+                    labelText: 'Producto',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                controller: txtproduct,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Por favor ingrese un producto";
+                  }
+                },
+              ),
               const SizedBox(
                 height: 20,
               ),
               TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'FECHA',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0))),
-                  controller: txtfecha),
+                decoration: InputDecoration(
+                    labelText: 'Fecha',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                controller: txtfecha,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Ingrese una fecha.";
+                  }
+                },
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -90,41 +124,94 @@ class _ProveedorFormState extends State<ProveedorForm> {
               const SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                child: const Text('GUARDAR'),
-                onPressed: () {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('Guardando')));
-                  // CUANDO ES NUEVO
-                  var cardProveedor = CardProveedor(
-                      id: '',
-                      proveedorId: 0,
-                      product: txtproduct.text,
-                      fecha: txtfecha.text,
-                      total: txttotal.text);
-
-                  proveedoresProvider.postSaveProveedor(cardProveedor);
-
-                  // AGREGANDO PEDIDO A LA LISTA
-                  /*  if (int.parse(txtId.text) == 0) {
-                    // OSEA NUEVO
-                   pedidoLocal.agregarPedidoItem(Pedido(
-                        id: pedidoLocal.obtenerCantidadPedidos() + 1,
-                        descripcion: txtDescripcion.text,
-                        fecha: txtFecha.text,
-                        imagen: txtImagen.text));
-                  } else {
-                    // OSEA EDITAR
-                    pedidoLocal.editarPedidoItem(Pedido(
-                        id: int.parse(txtId.text),
-                        descripcion: txtDescripcion.text,
-                        fecha: txtFecha.text,
-                        imagen: txtImagen.text));
-                  } */
-
-                  Navigator.pushReplacementNamed(context, '/suggestions');
-                },
+              Row(
+                children: <Widget>[
+                  const Text("CATEGORIA:"),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Radio(
+                      value: Categorias.adidas,
+                      groupValue: _catSeleccion,
+                      onChanged: (value) {
+                        setState(() {
+                          _catSeleccion = value as Categorias?;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Adidas"),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Radio(
+                      value: Categorias.jordan,
+                      groupValue: _catSeleccion,
+                      onChanged: (value) {
+                        setState(() {
+                          _catSeleccion = value as Categorias?;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Jordan"),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Radio(
+                      value: Categorias.nike,
+                      groupValue: _catSeleccion,
+                      onChanged: (value) {
+                        setState(() {
+                          _catSeleccion = value as Categorias?;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Nike")
+                ],
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: <Widget>[
+                  Text("ESTADO:"),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Checkbox(
+                      value: _estadoActivado,
+                      onChanged: (value) {
+                        setState(() {
+                          _estadoActivado = value;
+                          formModificado = true;
+                        });
+                      }),
+                  const Text("Activado")
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  child: const Text('GUARDAR'),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Guardando')));
+                      // CUANDO ES NUEVO
+                      var cardProveedor = CardProveedor(
+                        id: '',
+                        proveedorId: int.parse(txtproveedorId.text),
+                        product: txtproduct.text,
+                        fecha: txtfecha.text,
+                        total: txttotal.text,
+                        categoria: _catSeleccion.toString(),
+                        estado: _estadoActivado.toString(),
+                      );
+
+                      proveedoresProvider.postSaveProveedor(cardProveedor);
+                      Navigator.pushReplacementNamed(context, '/suggestions');
+                    }
+                  }),
             ],
           ),
         ),

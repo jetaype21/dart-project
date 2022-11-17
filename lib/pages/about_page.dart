@@ -15,10 +15,9 @@ class _AboutPageState extends State<AboutPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final clientProvider = Provider.of<ClientesProvider>(context);
     final List<CardCliente> listDataClient = clientProvider.clientes;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Nuestros ultimos clientes'),
@@ -55,6 +54,12 @@ class _AboutPageState extends State<AboutPage> {
                           Text('cant: ${item.total}',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 26)),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/proveedor_form',
+                                    arguments: item);
+                              },
+                              icon: Icon(Icons.arrow_right))
                         ],
                       ),
                     ],
