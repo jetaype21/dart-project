@@ -39,6 +39,11 @@ class _SidebarMenuState extends State<SidebarMenu> {
         text: 'Reportes productos',
         route: '/resportesproductos',
       ),
+      const _ListTileWidget(
+        icon: Icons.shop,
+        text: 'Ventas',
+        route: '/ventas',
+      ),
     ];
 
     return Drawer(

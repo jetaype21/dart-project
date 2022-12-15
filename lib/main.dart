@@ -4,6 +4,7 @@ import 'package:eva2_flutter/pages/proveedor_form.dart';
 import 'package:eva2_flutter/pages/reporte_clientes_screen.dart';
 import 'package:eva2_flutter/pages/reporte_productos_screen.dart';
 import 'package:eva2_flutter/pages/reporte_proveedor_screen.dart';
+import 'package:eva2_flutter/pages/venta/venta_screen.dart';
 import 'package:eva2_flutter/providers/proveedores_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:eva2_flutter/pages/about_page.dart';
@@ -22,18 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* return MaterialApp(
-        title: 'Sneake Store',
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const HomePage(),
-          '/sports': (context) => const SportPage(),
-          '/street': (context) => const StreetPage(),
-          '/collection': (context) => const CollectionPage(),
-          '/about': (context) => const AboutPage(),
-          '/suggestions': (context) => const SuggestionPage(),
-        }); */
+
     return MultiProvider(
       providers: [
       ChangeNotifierProvider(create: (_) => ClientesProvider()),
@@ -55,6 +45,7 @@ class MyApp extends StatelessWidget {
           '/resportesproveedor': (context) => const ReporteProveedoresScreen(),
           '/resportesclientes': (context) => const ReporteClientesScreen(),
           '/resportesproductos': (context) => const ReporteProductosScreen(),
+          '/ventas': (context) => const VentaScreen(),
         }),
     );
   }

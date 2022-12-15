@@ -11,7 +11,7 @@ import 'package:eva2_flutter/models/card_product.dart';
 import 'package:eva2_flutter/models/productResponse.dart';
 
 class ProveedoresProvider extends ChangeNotifier {
-  String _baseUrl = '192.168.43.25:8000';
+  String _baseUrl = '192.168.43.25:7000';
 
   List<CardProveedor> proveedores = [];
   List<ProveedoresReport> listaProveedoresReport = [];

@@ -1,18 +1,14 @@
-import 'dart:html';
 import 'dart:io';
-
 import 'package:eva2_flutter/models/card_client.dart';
 import 'package:eva2_flutter/models/clientResponse.dart';
 import 'package:eva2_flutter/models/cliente_reporte_response.dart';
 import 'package:eva2_flutter/models/clientesReport.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:eva2_flutter/models/card_product.dart';
-import 'package:eva2_flutter/models/productResponse.dart';
 
 class ClientesProvider extends ChangeNotifier {
   
-  String _baseUrl = '192.168.43.25:8000';
+  String _baseUrl = '192.168.43.25:7000';
 
   List<CardCliente> clientes = [];
   List<ClientesReport> listaClientesReport = [];
